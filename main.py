@@ -1,10 +1,12 @@
 import discord
-
 client = discord.Client()
+
+with open('token.txt','r') as reader:
+    token = reader.read()
 
 @client.event
 async def on_ready():
-    print(f'{client.user} is ready')
+    print(f'{client.user} is ready!')
 
 @client.event
 async def on_message(message):
@@ -15,4 +17,4 @@ async def on_message(message):
         await message.channel.send('Hello!')
 
 
-client.run('NzQ3MDgzMTI4NDA4ODk5NjQ2.X0JtYQ.SZfqzA5ztxnYn8sp6MrMN-ZNpQw')
+client.run(token)
