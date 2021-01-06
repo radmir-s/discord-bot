@@ -5,7 +5,7 @@ __pycache__/
 /.idea
 *.txt
 *.png
-
+*.aux
 # C extensions
 *.so
 
