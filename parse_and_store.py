@@ -1,6 +1,8 @@
 from bs4 import Tag, NavigableString, BeautifulSoup
 import requests
 from datetime import datetime
+from zipfile import ZipFile, ZIP_DEFLATED
+from os import remove
 
 
 def save_image_file(image_url):
@@ -55,7 +57,7 @@ def get_problem_set(amc="8", y1=2018, y2=2020, p1=3, p2=5):
 
 
 def store_a_problem(amc="8", year=2012, problem_num=1):
-    problem, image_links = get_problem(amc="8", year=2014, problem_num=15)
+    problem, image_links = get_problem(amc, year, problem_num)
     for image_url in image_links:
         save_image_file(image_url)
     with open(f"{year} AMC {amc} Problem {problem_num}.txt", "w") as file:
@@ -77,5 +79,14 @@ def store_problem_set(amc="8", y1=2018, y2=2020, p1=3, p2=5):
     return file_names
 
 
+def prepare_zip(amc="8", y1=2018, y2=2020, p1=3, p2=5):
+    file_names = store_problem_set(amc, y1, y2, p1, p2)
+    zip_file_name = file_names[0][:-4] + ".zip"
+    zip_file = ZipFile(zip_file_name, "w")
+    for file_name in file_names:
+        zip_file.write(file_name, compress_type=ZIP_DEFLATED)
+        remove(file_name)
+    return zip_file_name
+
 if __name__ == "__main__":
-    print(store_problem_set(amc="8", y1=2018, y2=2020, p1=3, p2=5))
+    prepare_zip(amc="8", y1=2018, y2=2020, p1=3, p2=5)

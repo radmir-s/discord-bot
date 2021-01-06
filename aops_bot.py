@@ -1,5 +1,5 @@
 import discord
-from parse_and_store import store_problem_set
+from parse_and_store import prepare_zip
 
 client = discord.Client()
 with open('token.txt', 'r') as reader:
@@ -44,9 +44,9 @@ async def on_message(message):
                 await message.channel.send("Type 'gen' to generate the problem set")
 
     if message.content.lower() == "gen":
-        file_names = store_problem_set(amc="8", y1=2018, y2=2020, p1=3, p2=5)
-        my_files = [discord.File(name) for name in file_names]
-        await message.channel.send(files=my_files)
+        print(amc, y1, y2, p1, p2)
+        zip_file_name = prepare_zip(amc, y1, y2, p1, p2)
+        await message.channel.send(file=discord.File(zip_file_name))
 
 
 client.run(token)
