@@ -41,7 +41,7 @@ def get_problem(amc="8", year=14, problem_num=15):
         if isinstance(start, NavigableString):
             problem.append(start)
         elif isinstance(start, Tag) and start.name == 'img' and start.has_attr("alt"):
-            if start['alt'][:5] == "[asy]":
+            if start['alt'].startswith("[asy]"):
                 problem.append(insert_image(start['src']))
                 print(start['src'])
                 images_links.append("http:" + start['src'])
