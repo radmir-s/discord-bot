@@ -130,11 +130,11 @@ async def on_message(message):
             p2 = min(25, int(p2))
             await message.channel.send("Type 'gen' to generate the problem set")
 
-    if p1 and amc:
-        if p1 < 2003 and amc != "AMC_8":
-            p1 = max(2000, p1)
-            p2 = max(2000, p2)
-            amc = "AMC_10" if amc[5] == "0" else "AMC_12"
+    if y1 and amc:
+        if y1 < 2003 and amc != "AMC_8":
+            y1 = max(2000, y1)
+            y2 = min(2002, y2)
+            amc = "AMC_10" if "10" in amc else "AMC_12"
 
     if message.content.lower() == "gen":
         print(amc, y1, y2, p1, p2, message.author)

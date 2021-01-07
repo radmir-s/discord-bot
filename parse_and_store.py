@@ -55,9 +55,7 @@ def get_problem_set(amc="AMC_8", y1=2018, y2=2020, p1=3, p2=5):
     problem_set = []
     images_links = []
     for y in range(y1, y2 + 1):
-        print(y)
         for p in range(p1, p2 + 1):
-            print(p)
             problem, links = get_problem(amc, y, p)
             problem_set.append(problem)
             images_links.extend(links)
