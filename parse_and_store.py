@@ -4,7 +4,7 @@ from datetime import datetime
 from zipfile import ZipFile, ZIP_DEFLATED
 from os import remove
 
-tail = 20
+tail = 12
 
 
 def save_image_file(image_url):
@@ -89,4 +89,4 @@ def prepare_zip(amc="AMC_8", y1=2018, y2=2020, p1=3, p2=5):
 
 
 if __name__ == "__main__":
-    prepare_zip(amc="AMC_8", y1=2019, y2=2019, p1=1, p2=9)
+    prepare_zip(amc="AMC_8", y1=2017, y2=2020, p1=1, p2=25)

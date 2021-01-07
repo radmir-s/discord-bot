@@ -5,7 +5,7 @@ from zipfile import ZipFile, ZIP_DEFLATED
 import discord
 from os import remove
 
-tail = 20
+tail = 12
 
 
 def save_image_file(image_url):
@@ -137,7 +137,7 @@ async def on_message(message):
             amc = "AMC_10" if amc[5] == "0" else "AMC_12"
 
     if message.content.lower() == "gen":
-        print(amc, y1, y2, p1, p2)
+        print(amc, y1, y2, p1, p2, message.author)
         zip_file_name = prepare_zip(amc, y1, y2, p1, p2)
         await message.channel.send(file=discord.File(zip_file_name))
         remove(zip_file_name)
