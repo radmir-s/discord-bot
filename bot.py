@@ -107,21 +107,21 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    if message.content.lower().startswith('$hey'):
+    if message.content.lower().startswith('hey'):
         await message.channel.send(
-            "Hey! I am AoPS Bot. Do you need a problem set? \nWhich AMC are you intersted in? \nType: amc 8 (or amc 10a, ..., amc 12b)")
+            "Hey! Type an AMC you are interested in. \nExample: amc 8 (or amc 10a, ..., amc 12b)")
 
     if message.content.upper() in ("AMC 8", "AMC 10A", "AMC 10B", "AMC 12A", "AMC 12B"):
         amc = message.content.upper().replace(" ", "_")
         await message.channel.send(
-            'Great. What period of are you interested in?\n(min: 1999, max:2020)\nExample: year 2007 2013')
+            'Type a period of the years. (min: 1999, max:2020)\nExample: year 2007 2013')
 
     if message.content.lower().startswith('year') and message.content.count(' ') == 2:
         y1, y2 = message.content.split()[1:3]
         if y1.isnumeric() and y2.isnumeric():
             y1 = max(1999, int(y1))
             y2 = min(2020, int(y2))
-            await message.channel.send('Now. Problem numbers range?\n(min: 1, max: 25)\nExample: range 3 21')
+            await message.channel.send('Type a problems range. (min: 1, max: 25)\nExample: range 3 21')
 
     if message.content.lower().startswith('range') and message.content.count(' ') == 2:
         p1, p2 = message.content.split()[1:3]
