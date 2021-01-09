@@ -31,32 +31,35 @@ def insert_image(image_url, tail=12, height="2.5cm"):
 
 def get_problem(amc="AMC_8", year=2014, problem_num=15):
     link = f"https://artofproblemsolving.com/wiki/index.php/{year}_{amc}_Problems/Problem_{problem_num}"
-    with requests.get(link) as req:
-        soup = BeautifulSoup(req.content, features="html.parser")
-    problem = []
-    images_links = []
-    start = soup.find("p")
-    while True:
-        if isinstance(start, NavigableString) and start != "\n":
-            problem.append(start)
-        elif isinstance(start, Tag) and start.name == 'img' and start.has_attr("alt"):
-            if start['alt'].startswith("[asy]") or start['alt'].endswith(".png"):
-                problem.append(insert_image(start['src']))
-                if start['src'].startswith("http"):
-                    images_links.append(start['src'])
+    try:
+        with requests.get(link) as req:
+            soup = BeautifulSoup(req.content, features="html.parser")
+        problem = []
+        images_links = []
+        start = soup.find("p")
+        while True:
+            if isinstance(start, NavigableString) and start != "\n":
+                problem.append(start)
+            elif isinstance(start, Tag) and start.name == 'img' and start.has_attr("alt"):
+                if start['alt'].startswith("[asy]") or start['alt'].endswith(".png"):
+                    problem.append(insert_image(start['src']))
+                    if start['src'].startswith("http"):
+                        images_links.append(start['src'])
+                    else:
+                        images_links.append("http:" + start['src'])
                 else:
-                    images_links.append("http:" + start['src'])
-            else:
-                problem.append(start['alt'])
-        start = start.next_element
-        if isinstance(start, Tag):
-            if start.has_attr("id"):
-                if "Solution" in start["id"] or "toc" in start["id"]:
-                    break
-    amc = amc.replace("_", " ")
-    problem.insert(-1, "\\newline \\indent")
-    href_prob = "".join(("\\href{", link, "}{",f"{year} {amc} Problem {problem_num}","}"))
-    return href_prob + "\\newline \\indent " + "".join(problem) + "\\vspace{3mm}\n\n", images_links
+                    problem.append(start['alt'])
+            start = start.next_element
+            if isinstance(start, Tag):
+                if start.has_attr("id"):
+                    if "Solution" in start["id"] or "toc" in start["id"]:
+                        break
+        amc = amc.replace("_", " ")
+        problem.insert(-1, "\\newline \\indent")
+        href_prob = "".join(("\\href{", link, "}{", f"{year} {amc} Problem {problem_num}", "}"))
+        return href_prob + "\\newline \\indent " + "".join(problem) + "\\vspace{3mm}\n\n", images_links
+    except:
+        return False, False
 
 
 def is_keyword_in(amc="AMC_8", year=2014, problem_num=15, all_true=True, keys=tuple()):
@@ -87,8 +90,9 @@ def get_problem_set_keys(probs_with_keys):
     images_links = []
     for amc, y, p in probs_with_keys:
         problem, links = get_problem(amc, y, p)
-        problem_set.append(problem)
-        images_links.extend(links)
+        if problem:
+            problem_set.append(problem)
+            images_links.extend(links)
     return problem_set, images_links
 
 
@@ -98,8 +102,9 @@ def get_problem_set_range(amc="AMC_8", y1=2018, y2=2020, p1=3, p2=5):
     for y in range(y1, y2 + 1):
         for p in range(p1, p2 + 1):
             problem, links = get_problem(amc, y, p)
-            problem_set.append(problem)
-            images_links.extend(links)
+            if problem:
+                problem_set.append(problem)
+                images_links.extend(links)
     return problem_set, images_links
 
 
