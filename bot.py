@@ -5,7 +5,7 @@ from zipfile import ZipFile, ZIP_DEFLATED
 import discord
 from os import remove
 
-top = """\\documentclass{article}
+top = """\\documentclass[11pt,a4paper,oneside]{article}
 \\usepackage[utf8]{inputenc}
 \\usepackage{hyperref}
 \\title{AMC Problem Set}
@@ -57,7 +57,7 @@ def get_problem(amc="AMC_8", year=2014, problem_num=15):
         amc = amc.replace("_", " ")
         problem.insert(-1, "\\newline \\indent")
         href_prob = "".join(("\\href{", link, "}{", f"{year} {amc} Problem {problem_num}", "}"))
-        return href_prob + "\\newline \\indent " + "".join(problem) + "\\vspace{3mm}\n\n", images_links
+        return href_prob + "\\newline \\indent " + "".join(problem) + "\\vspace{5mm}\n\n", images_links
     except:
         return False, False
 
@@ -113,7 +113,7 @@ def store_problem_set(problem_set, images_links, tail=12, top=top, bot=bottom):
     file_name = "problem set " + time_now + ".txt"
     with open(file_name, "w") as file:
         file.write(top)
-        file.write("Problem Set " + time_now + "\\vspace{3mm}\n\n")
+        file.write("Problem Set " + time_now + "\\vspace{5mm}\n\n")
         file.writelines(problem_set)
         file.write(bot)
     for url in images_links:
