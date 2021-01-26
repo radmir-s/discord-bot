@@ -133,6 +133,4 @@ def prepare_zip(file_names):
 
 
 if __name__ == "__main__":
-    problem_set, images_links = get_problem_set_range()
-    file_names = store_problem_set(problem_set, images_links)
-    prepare_zip(file_names)
+    pass
